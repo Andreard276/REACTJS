@@ -1,16 +1,16 @@
+import Encabezado from "./Encabezado";
 function App(){
   
   
   return ( 
     <div> 
+      <Encabezado />
     <h1>5A EVND</h1>
     <h2>Profesor:</h2>
     <h3>M.T.I Ricardo Luna Santos</h3>
     <h4>Andrea</h4>
 
-    <UserComponent/>
-    <ProfileComponent/>
-    <FeedComponent/>
+  
     
     </div>
    
@@ -18,6 +18,7 @@ function App(){
 }
 
 function UserComponent(){
+  
   const nombre = 'Andrea';
   const apellidos = 'Rodriguez Morales';
   const nombrecompleto = <h2>El nombre es: {nombre} y sus apellidos {apellidos}</h2>;
