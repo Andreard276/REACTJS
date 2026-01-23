@@ -4,10 +4,11 @@ import instagram from './assets/instagram.png' ;
 import linkedin from './assets/linkedin.png' ;
 import whatsapp from './assets/whatsapp.png' ;
 import tiktok from './assets/tik-tok.png' ;
+import './encabezado.css';
 
 function Encabezado() {
   return (
-    <div>
+    <div className="encabezado">
         <Logo />
         <Menu />
         <Redes />
@@ -18,7 +19,7 @@ function Encabezado() {
 }
 function Logo(){
     return (
-        <div>
+        <div className="logo">
             <img src={miLogo} alt="React logo" />
         </div>
     );
@@ -42,7 +43,7 @@ function Menu(){
 
 function Redes(){
     return (
-        <div>
+        <div className= "facebook">
               <img src={facebook} alt="React facebbok" />
               <img src={instagram} alt="React instagram" />
             <img src={linkedin} alt="React linkedin" />
