@@ -11,15 +11,16 @@ function Encabezado() {
     <div className="encabezado">
         <Logo />
         <Menu />
-        <Redes />
-
-       <h2>Bienvenido a mi sitio</h2>
+        <div className="right-section">
+            <h2></h2>
+            <Redes />
+        </div>
     </div>
   );
 }
 function Logo(){
     return (
-        <div className="logo">
+        <div className="logoDiv">
             <img src={miLogo} alt="React logo" />
         </div>
     );
@@ -27,28 +28,30 @@ function Logo(){
 
 function Menu(){
     return (
-        <nav>
+        <div className="menuDiv">
             <ul>
-                <li>Inicio</li>
-                <li>Acerca de</li>
-                <li>Productos</li>
-                <li>Contacto</li>
-                <li>Sucursales</li>
-
+                <li><a href='#'>Inicio</a></li>
+                <li><a href='#'>Acerca de</a></li>
+                <li><a href='#'>Productos</a></li>
+                <li><a href='#'>Contacto</a></li>
+                <li><a href='#'>Sucursales</a></li>
             </ul>
-        </nav>
+        </div>
     );
 
 }
 
 function Redes(){
     return (
-        <div className= "facebook">
-              <img src={facebook} alt="React facebbok" />
-              <img src={instagram} alt="React instagram" />
-            <img src={linkedin} alt="React linkedin" />
-            <img src={whatsapp} alt="React whatsapp" />
-            <img src={tiktok} alt="React tik-tok" />
+        <div className= "redesDiv">
+            <ul>
+                <li><img src={facebook} alt="Facebook" /></li>
+                <li><img src={instagram} alt="Instagram" /></li>
+                <li><img src={linkedin} alt="Linkedin" /></li>
+                <li><img src={whatsapp} alt="Whatsapp" /></li>
+                <li><img src={tiktok} alt="Tiktok" />  
+                </li>
+            </ul>
         </div>
     );
 }

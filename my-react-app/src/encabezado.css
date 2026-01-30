@@ -5,14 +5,57 @@ h2{
     color:white;
 }
 .encabezado{
-    background-color:rgb(194, 172, 172);
+    background-color:#c2acac;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     
 }
 
-.logo img{
-    width: 100px;
+.logoDiv{
+   
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+.logoDiv img{
+    width: 200px;
 }
 
+.redesDiv{
+    background-color:#c2acac(238, 216, 144);
+   justify-content: flex-start;
+   display: flex;
+}
+.menuDiv{
+   width: 200%;
+   justify-content: right;
+   align-items: right;
+    display: flex;
+   
+}
+
+.menuDiv ul{
+    width: 100%;
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    font-size: 20PX;
+    font-weight: bold;
+    background-color:#c2acac(187, 86, 86);
+    padding: 20px;
+    justify-content: center;
+}
+
+.menuDiv ul li a{
+    text-decoration: none;
+    color: white;
+}
+.menuDiv ul li a:hover{
+    color: yellow;
+    padding: 20px;
+}
 .facebook img{
     width: 100px;
 }
@@ -27,4 +70,19 @@ h2{
 }
 .whatsapp img{
     width: 100px;
+}
+.redesDiv img{
+    width: 40px;
+}
+.redesDiv ul{
+    list-style: none;
+    text-decoration: none;
+    display: flex;
+   
+}
+.right-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 40%; /* adjust as needed */
 }
