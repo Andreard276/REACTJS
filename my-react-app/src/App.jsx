@@ -1,19 +1,18 @@
 import ContenedorTarjeta from "./ContenedorTarjeta";
 import Encabezado from "./Encabezado";
-function App(){
-  
-  
-  return ( 
-    <div> 
-      <Encabezado />
-      <ContenedorTarjeta />
-    <h1>5A EVND</h1>
-    <h2>Profesor:</h2>
-    <h3>M.T.I Ricardo Luna Santos</h3>
-    <h4>Andrea</h4>
+import Pie from "./Pie";
+import Promociones from "./Promociones";
+import './App.css';
 
-  
-    
+function App(){
+  return ( 
+    <div className="app-container"> 
+      <div className="app-content">
+        <Encabezado />
+        <ContenedorTarjeta />
+        <Promociones />
+      </div>
+      <Pie />
     </div>
    
   ) 
