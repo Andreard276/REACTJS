@@ -1,16 +1,19 @@
-import './ContenedorTarjeta.css';
-import imgtarjeta from './assets/Paisaje_de_Albacete.jpg';
-import logo from './assets/logo.png';
+import './ContenedorTarjeta.css';     
 import facebook from './assets/facebook.png';
 import instagram from './assets/instagram.png';
+import tarjeta1 from './assets/tarjeta1.jpg';
+import tarjeta2 from './assets/tarjetados.jpg';
+import tarjeta3 from './assets/tarjetatres.jpg';
+import tarjeta4 from './assets/tarjetacuatro.jpg';
+
 function ContenedorTarjeta(){
     return(
         <div className="ContenedorTarjeta">
-            <h2>Contenedor de Tarjetas </h2>
-            <Tarjeta img={imgtarjeta} alt="Paisaje de Albacete" title="Tarjeta 1" desc="holalalalalal" />
-            <Tarjeta img={logo} alt="Logo" title="Tarjeta 2" desc="byeeeee" />
-            <Tarjeta img={facebook} alt="Facebook" title="Tarjeta 3" desc="hiii" />
-            <Tarjeta img={instagram} alt="Instagram" title="Tarjeta 4" desc="goodbye" />
+            
+            <Tarjeta img={tarjeta1} alt="Tarjeta 1" title="Documental" desc="La fotografia documental tiene la capacidad para detener lo efímero, para convertir lo cotidiano en historia y para recordarnos que la realidad, aunque cambie, puede seguir viva en una imagen." />
+            <Tarjeta img={tarjeta2} alt="Tarjeta 2" title="Cultural" desc="La fotografia cultural o etnografica refleja tradiciones, arquitectura y forma de vida." />
+            <Tarjeta img={tarjeta3} alt="Tarjeta 3" title="Authenticity" desc="Buscamos mostrar lo real, lo humano. " />
+            <Tarjeta img={tarjeta4} alt="Tarjeta 4" title="El ritual cotidiano" desc="La rutina tambien cuenta historias." />
             </div>
     )        
 }

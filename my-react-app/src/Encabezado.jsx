@@ -1,4 +1,4 @@
-import miLogo from './assets/logo.png' ;
+import miLogo from './assets/logouno.jpg' ;
 import facebook from './assets/facebook.png' ;
 import instagram from './assets/instagram.png' ;
 import linkedin from './assets/linkedin.png' ;
@@ -35,6 +35,7 @@ function Menu(){
                 <li><a href='#'>Productos</a></li>
                 <li><a href='#'>Contacto</a></li>
                 <li><a href='#'>Sucursales</a></li>
+                <li><a href='#'>Galerias</a></li>
             </ul>
         </div>
     );

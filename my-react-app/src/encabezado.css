@@ -1,11 +1,11 @@
 h2{
-    color:blue;
+    color:rgb(120, 120, 220);
 }
 h2{
     color:white;
 }
 .encabezado{
-    background-color:#c2acac;
+    background-color:#ffffff;
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -43,14 +43,14 @@ h2{
     gap: 20px;
     font-size: 20PX;
     font-weight: bold;
-    background-color:#c2acac(187, 86, 86);
+    background-color:#111010(187, 86, 86);
     padding: 20px;
     justify-content: center;
 }
 
 .menuDiv ul li a{
     text-decoration: none;
-    color: white;
+    color: rgb(9, 9, 9);
 }
 .menuDiv ul li a:hover{
     color: yellow;
