@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import ContenedorTarjeta from "./ContenedorTarjeta";
 import Encabezado from "./Encabezado";
 import Pie from "./Pie";
@@ -5,12 +6,46 @@ import Promociones from "./Promociones";
 import './App.css';
 
 function App(){
+  const [currentPage, setCurrentPage] = useState('inicio');
+
+  const menuItems = [
+    { label: 'Inicio', href: 'inicio' },
+    { label: 'Acerca de', href: 'acerca' },
+    { label: 'Productos', href: 'productos' },
+    { label: 'Contacto', href: 'contacto' },
+    { label: 'Sucursales', href: 'sucursales' },
+    { label: 'Galerias', href: 'galerias' }
+  ];
+
+  const renderPage = () => {
+    switch(currentPage) {
+      case 'inicio':
+        return (
+          <>
+            <ContenedorTarjeta />
+            <Promociones />
+          </>
+        );
+      case 'acerca':
+        return <div className="page-content"><h2>Acerca de Nosotros</h2><p>Contenido sobre la empresa...</p></div>;
+      case 'productos':
+        return <div className="page-content"><h2>Productos</h2><p>Catálogo de productos...</p></div>;
+      case 'contacto':
+        return <div className="page-content"><h2>Contacto</h2><p>Información de contacto...</p></div>;
+      case 'sucursales':
+        return <div className="page-content"><h2>Sucursales</h2><p>Ubicación de nuestras sucursales...</p></div>;
+      case 'galerias':
+        return <div className="page-content"><h2>Galerías</h2><p>Galería de fotos...</p></div>;
+      default:
+        return <ContenedorTarjeta />;
+    }
+  };
+
   return ( 
     <div className="app-container"> 
       <div className="app-content">
-        <Encabezado />
-        <ContenedorTarjeta />
-        <Promociones />
+        <Encabezado menuItems={menuItems} onMenuClick={setCurrentPage} currentPage={currentPage} />
+        {renderPage()}
       </div>
       <Pie />
     </div>

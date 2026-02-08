@@ -6,11 +6,11 @@ import whatsapp from './assets/whatsapp.png' ;
 import tiktok from './assets/tik-tok.png' ;
 import './encabezado.css';
 
-function Encabezado() {
+function Encabezado({ menuItems = defaultMenuItems, onMenuClick, currentPage }) {
   return (
     <div className="encabezado">
         <Logo />
-        <Menu />
+        <Menu items={menuItems} onMenuClick={onMenuClick} currentPage={currentPage} />
         <div className="right-section">
             <h2></h2>
             <Redes />
@@ -18,6 +18,15 @@ function Encabezado() {
     </div>
   );
 }
+
+const defaultMenuItems = [
+  { label: 'Inicio', href: 'inicio' },
+  { label: 'Acerca de', href: 'acerca' },
+  { label: 'Productos', href: 'productos' },
+  { label: 'Contacto', href: 'contacto' },
+  { label: 'Sucursales', href: 'sucursales' },
+  { label: 'Galerias', href: 'galerias' }
+];
 function Logo(){
     return (
         <div className="logoDiv">
@@ -26,16 +35,28 @@ function Logo(){
     );
 }
 
-function Menu(){
+function Menu({ items, onMenuClick, currentPage }){
     return (
         <div className="menuDiv">
             <ul>
-                <li><a href='#'>Inicio</a></li>
-                <li><a href='#'>Acerca de</a></li>
-                <li><a href='#'>Productos</a></li>
-                <li><a href='#'>Contacto</a></li>
-                <li><a href='#'>Sucursales</a></li>
-                <li><a href='#'>Galerias</a></li>
+                {items.map((item, index) => (
+                    <li key={index}>
+                        <button 
+                            onClick={() => onMenuClick(item.href)}
+                            className={currentPage === item.href ? 'active' : ''}
+                            style={{
+                                background: 'none',
+                                border: 'none',
+                                cursor: 'pointer',
+                                fontSize: 'inherit',
+                                color: currentPage === item.href ? '#007bff' : 'inherit',
+                                fontWeight: currentPage === item.href ? 'bold' : 'normal'
+                            }}
+                        >
+                            {item.label}
+                        </button>
+                    </li>
+                ))}
             </ul>
         </div>
     );
