@@ -1,0 +1,16 @@
+.contacto-container {
+  padding: 16px;
+  background: #f0fff4;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  margin: 16px 0;
+  color: #333;
+}
+.contacto-container h2 {
+  margin: 0 0 8px;
+  font-size: 1.4rem;
+}
+.contacto-container p {
+  margin: 0;
+  line-height: 1.6;
+}

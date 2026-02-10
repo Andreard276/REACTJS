@@ -1,8 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import ContenedorTarjeta from "./ContenedorTarjeta";
 import Encabezado from "./Encabezado";
 import Pie from "./Pie";
 import Promociones from "./Promociones";
+import AcercaDe from "./AcercaDe";
+import Productos from "./Productos";
+import Contacto from "./Contacto";
+import Sucursales from "./Sucursales";
+import Galerias from "./Galerias";
 import './App.css';
 
 function App(){
@@ -20,14 +25,10 @@ function App(){
   const renderPage = () => {
     switch(currentPage) {
       case 'inicio':
-        return (
-          <>
-            <ContenedorTarjeta />
-            <Promociones />
-          </>
-        );
+        return <Promociones />;
       case 'acerca':
-        return <div className="page-content"><h2>Acerca de Nosotros</h2><p>Contenido sobre la empresa...</p></div>;
+        // keep promotions (or other content) below the top container
+        return <Promociones />;
       case 'productos':
         return <div className="page-content"><h2>Productos</h2><p>Catálogo de productos...</p></div>;
       case 'contacto':
@@ -37,14 +38,33 @@ function App(){
       case 'galerias':
         return <div className="page-content"><h2>Galerías</h2><p>Galería de fotos...</p></div>;
       default:
-        return <ContenedorTarjeta />;
+        return null;
     }
   };
+
+  const topRef = useRef(null);
+
+  useEffect(() => {
+    // Scroll the top container into view when the page changes
+    if (topRef.current) {
+      topRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [currentPage]);
 
   return ( 
     <div className="app-container"> 
       <div className="app-content">
         <Encabezado menuItems={menuItems} onMenuClick={setCurrentPage} currentPage={currentPage} />
+        <div ref={topRef} className="main-top">
+          {currentPage === 'acerca' && <AcercaDe />}
+          {currentPage === 'productos' && <Productos />}
+          {currentPage === 'contacto' && <Contacto />}
+          {currentPage === 'sucursales' && <Sucursales />}
+          {currentPage === 'galerias' && <Galerias />}
+          {currentPage === 'inicio' && <ContenedorTarjeta />}
+          {/* fallback */}
+          {!['acerca','productos','contacto','sucursales','galerias','inicio'].includes(currentPage) && <ContenedorTarjeta />}
+        </div>
         {renderPage()}
       </div>
       <Pie />
