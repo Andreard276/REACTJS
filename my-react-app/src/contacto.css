@@ -1,10 +1,10 @@
 .contacto-container {
   padding: 16px;
-  background: #f0fff4;
+  background: #000000;
   border-radius: 8px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.06);
   margin: 16px 0;
-  color: #333;
+  color: #ffffff;
 }
 .contacto-container h2 {
   margin: 0 0 8px;
@@ -13,4 +13,45 @@
 .contacto-container p {
   margin: 0;
   line-height: 1.6;
+}
+
+.contact-form {
+  margin-top: 12px;
+  display: grid;
+  gap: 10px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+.field span {
+  font-size: 0.95rem;
+  margin-bottom: 6px;
+}
+
+.field input {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: #4c4c52;
+  color: #fff;
+}
+
+.actions {
+  margin-top: 6px;
+}
+
+.btn {
+  background: #1f6feb;
+  color: #fff;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  opacity: 0.95;
 }

@@ -30,13 +30,13 @@ function App(){
         // keep promotions (or other content) below the top container
         return <Promociones />;
       case 'productos':
-        return <div className="page-content"><h2>Productos</h2><p>Catálogo de productos...</p></div>;
+        return <div className="page-content"><h2>Productos</h2></div>;
       case 'contacto':
-        return <div className="page-content"><h2>Contacto</h2><p>Información de contacto...</p></div>;
+        return <div className="page-content"><h2>Contacto</h2></div>;
       case 'sucursales':
-        return <div className="page-content"><h2>Sucursales</h2><p>Ubicación de nuestras sucursales...</p></div>;
+        return <div className="page-content"><h2>Sucursales</h2></div>;
       case 'galerias':
-        return <div className="page-content"><h2>Galerías</h2><p>Galería de fotos...</p></div>;
+        return <div className="page-content"><h2>Galerías</h2></div>;
       default:
         return null;
     }
