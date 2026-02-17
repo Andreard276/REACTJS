@@ -7,10 +7,8 @@ const containerStyle = {
 
 function Mapa({lat, lng, nombre_sucursal}) {
     const { isLoaded, loadError } = useJsApiLoader({
-        googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAOS_API_KEY
-    }
-
-    )
+        googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY
+    })
     if(loadError) return <div>Error al cargar el mapa</div>
     if(!isLoaded) return <div>Cargando mapa...</div>
 
