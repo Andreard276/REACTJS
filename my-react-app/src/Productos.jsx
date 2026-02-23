@@ -1,45 +1,45 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import api from './Services/api';
 import './productos.css';
-import tatuajesImg from './assets/tatuajes.jpg';
 
-const Productos = () => {
+function Productos() {
+  const [productos, setProductos] = useState([]);
+  const [cargando, setCargando] = useState(true);
+
+  useEffect(() => {
+    const obtenerProductos = async () => {
+      try {
+        const response = await api.get('/products');
+        setProductos(response.data);
+      } catch (error) {
+        console.error('Error al obtener productos:', error);
+      } finally {
+        setCargando(false);
+      }
+    };
+
+    obtenerProductos();
+  }, []);
+
+  if (cargando) return <p>Cargando productos...</p>;
+
   return (
     <div className="productos-container">
-      <h2>Servicios</h2>
-      <p>Explora nuestro catálogo de servicios destacados.</p>
+      <h2>Catálogo de Productos</h2>
+      <p>Explora nuestros artículos destacados.</p>
 
       <div className="products-grid">
-        <div className="product-card">
-          <div className="card-image">
-            <img src={tatuajesImg} alt="Tatuajes" />
+        {productos.map((producto) => (
+          <div key={producto.id} className="product-card">
+            <div className="card-image">
+              <img src={producto.image} alt={producto.title} />
+            </div>
+            <h3 className="product-title">{producto.title}</h3>
+            <p className="product-price">${producto.price}</p>
+            <p className="product-desc">{producto.description?.slice(0, 80)}{producto.description && producto.description.length > 80 ? '...' : ''}</p>
+            <button className="product-cta">Ver producto</button>
           </div>
-          <h3>Tatuajes</h3>
-          <p>Diseños y artistas destacados.</p>
-        </div>
-
-        <div className="product-card">
-          <div className="card-image">
-            <img src="https://via.placeholder.com/400x240?text=Fotos" alt="Fotos" />
-          </div>
-          <h3>Fotos</h3>
-          <p>Sesiones fotográficas y portafolios.</p>
-        </div>
-
-        <div className="product-card">
-          <div className="card-image">
-            <img src="/assets/moda.jpg" alt="Moda" />
-          </div>
-          <h3>Moda</h3>
-          <p>Prendas y accesorios a la moda.</p>
-        </div>
-
-        <div className="product-card">
-          <div className="card-image">
-            <img src="https://via.placeholder.com/400x240?text=Perforaciones" alt="Perforaciones" />
-          </div>
-          <h3>Perforaciones</h3>
-          <p>Studs, aros y servicios profesionales.</p>
-        </div>
+        ))}
       </div>
     </div>
   );
