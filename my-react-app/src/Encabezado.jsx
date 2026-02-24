@@ -23,10 +23,14 @@ function Encabezado({ menuItems = defaultMenuItems, onMenuClick, currentPage }) 
 const defaultMenuItems = [
   { label: 'Inicio', href: 'inicio' },
   { label: 'Acerca de', href: 'acerca' },
+  { label: 'Usuarios', href: 'usuarios' },
   { label: 'Productos', href: 'productos' },
+  { label: 'Carrito', href: 'carrito' },
   { label: 'Contacto', href: 'contacto' },
   { label: 'Sucursales', href: 'sucursales' },
   { label: 'Galerias', href: 'galerias' }
+  
+  
 ];
 function Logo(){
     return (
@@ -132,4 +136,4 @@ function Clima(){
         </div>
     );
 }
-export default Encabezado; 
+export default Encabezado;

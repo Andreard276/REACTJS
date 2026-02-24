@@ -8,6 +8,8 @@ import Productos from "./Productos";
 import Contacto from "./Contacto";
 import Sucursales from "./Sucursales";
 import Galerias from "./Galerias";
+import Usuarios from "./Usuarios";
+import Carrito from "./Carrito";
 import './App.css';
 
 function App(){
@@ -16,7 +18,9 @@ function App(){
   const menuItems = [
     { label: 'Inicio', href: 'inicio' },
     { label: 'Acerca de', href: 'acerca' },
+    { label: 'Usuarios', href: 'usuarios' },
     { label: 'Productos', href: 'productos' },
+    { label: 'Carrito', href: 'carrito' },
     { label: 'Contacto', href: 'contacto' },
     { label: 'Sucursales', href: 'sucursales' },
     { label: 'Galerias', href: 'galerias' }
@@ -29,6 +33,10 @@ function App(){
       case 'acerca':
         // keep promotions (or other content) below the top container
         return <Promociones />;
+      case 'usuarios':
+        return null;
+      case 'carrito':
+        return null;
       case 'productos':
         return <div className="page-content"><h2>Productos</h2></div>;
       case 'contacto':
@@ -57,13 +65,15 @@ function App(){
         <Encabezado menuItems={menuItems} onMenuClick={setCurrentPage} currentPage={currentPage} />
         <div ref={topRef} className="main-top">
           {currentPage === 'acerca' && <AcercaDe />}
+          {currentPage === 'usuarios' && <Usuarios />}
+          {currentPage === 'carrito' && <Carrito />}
           {currentPage === 'productos' && <Productos />}
           {currentPage === 'contacto' && <Contacto />}
           {currentPage === 'sucursales' && <Sucursales />}
           {currentPage === 'galerias' && <Galerias />}
           {currentPage === 'inicio' && <ContenedorTarjeta />}
           {/* fallback */}
-          {!['acerca','productos','contacto','sucursales','galerias','inicio'].includes(currentPage) && <ContenedorTarjeta />}
+          {!['acerca','usuarios','carrito','productos','contacto','sucursales','galerias','inicio'].includes(currentPage) && <ContenedorTarjeta />}
         </div>
         {renderPage()}
       </div>
@@ -128,8 +138,4 @@ function FeedComponent(){
   );
 }
 
- 
-  
-
-
-export default App
+export default App;
