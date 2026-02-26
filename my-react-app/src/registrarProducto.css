@@ -1,0 +1,61 @@
+/* Contenedor del formulario */
+form {
+    display: grid;
+    /* Creamos 5 columnas: 4 para inputs y 1 para el botón */
+    grid-template-columns: repeat(4, 1fr) auto;
+    gap: 15px;
+    align-items: end; /* Alinea etiquetas arriba e inputs abajo */
+    background-color: #111;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #333;
+    margin-bottom: 30px;
+}
+
+/* Estilo para los Labels (Títulos de las celdas) */
+form label {
+    grid-row: 1; /* Todos los labels van en la fila superior */
+    color: #aaa;
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+}
+
+/* Estilo para los Inputs y Textarea (Cuerpo de la tabla) */
+form input, 
+form textarea {
+    grid-row: 2; /* Todos los inputs van en la fila inferior */
+    background-color: #222;
+    border: 1px solid #444;
+    border-radius: 4px;
+    padding: 10px;
+    color: white;
+    width: 100%;
+    box-sizing: border-box;
+    height: 40px; /* Altura uniforme */
+}
+
+/* Estilo para el botón Registrar */
+form button {
+    grid-row: 2; /* Alineado con los campos de texto */
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 0 25px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    height: 40px;
+    transition: background 0.3s;
+}
+
+form button:hover {
+    background-color: #0056b3;
+}
+
+/* Evita que el textarea se deforme */
+form textarea {
+    resize: none;
+    font-family: inherit;
+}

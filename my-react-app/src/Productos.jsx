@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import api from './Services/api';
 import './productos.css';
+import RegistrarProducto from './registrarProducto'; 
+
 
 function Productos() {
   const [productos, setProductos] = useState([]);
@@ -25,6 +27,7 @@ function Productos() {
 
   return (
     <div className="productos-container">
+      <RegistrarProducto />
       <h2>Catálogo de Productos</h2>
       <p>Explora nuestros artículos destacados.</p>
 
