@@ -204,3 +204,57 @@
     font-size: 12px;
   }
 }
+/* --- Estilos para el Formulario de Registro --- */
+.form-registro {
+  background: white;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  margin-bottom: 30px;
+  border-top: 4px solid #ea6a66; /* Combina con el color de tu tabla */
+}
+
+.form-registro h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 1.4rem;
+  text-align: left;
+}
+
+.nuevo-usuario-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+  align-items: end;
+}
+
+.nuevo-usuario-grid input {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: border-color 0.3s;
+}
+
+.nuevo-usuario-grid input:focus {
+  border-color: #ea6a66;
+  outline: none;
+  box-shadow: 0 0 5px rgba(234, 106, 102, 0.2);
+}
+
+/* Ajuste para que el botón de registro destaque */
+.nuevo-usuario-grid .btn-guardar {
+  grid-column: span 1;
+  height: 45px;
+  font-size: 13px;
+  background-color: #28a745; 
+  text-transform: uppercase;
+}
+
+/* Ajuste para pantallas pequeñas */
+@media (max-width: 768px) {
+  .nuevo-usuario-grid {
+    grid-template-columns: 1fr;
+  }
+}

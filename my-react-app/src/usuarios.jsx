@@ -7,225 +7,118 @@ function Usuarios() {
   const [error, setError] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [editData, setEditData] = useState({});
+  
+  // NUEVO: Estado para el formulario de registro
+  const [nuevoUsuario, setNuevoUsuario] = useState({
+    nombre: '', apellidos: '', direccion: '', telefono: '', correo: '', username: '', password: ''
+  });
 
   useEffect(() => {
     const fetchUsuarios = async () => {
       try {
         setLoading(true);
         const response = await fetch('https://fakestoreapi.com/users');
-        if (!response.ok) {
-          throw new Error('Error al cargar los usuarios');
-        }
+        if (!response.ok) throw new Error('Error al cargar los usuarios');
         const data = await response.json();
-        // Mapear los datos de la API a nuestro formato
-        const usuariosFormateados = data.map(user => {
-          const nombreCompleto = user.name || user.username || '';
-          const partes = typeof nombreCompleto === 'string' ? nombreCompleto.split(' ') : [];
-          return {
-            id: user.id,
-            nombre: partes[0] || user.username || 'Usuario',
-            apellidos: partes.slice(1).join(' ') || '',
-            direccion: user.address ? `${user.address.street || ''} ${user.address.city || ''}` : '',
-            telefono: user.phone || '',
-            correo: user.email || '',
-            username: user.username || '',
-            password: '***'
-          };
-        });
-        setUsuarios(usuariosFormateados);
-        setError(null);
+        const formateados = data.map(user => ({
+          id: user.id,
+          nombre: user.name?.firstname || user.username,
+          apellidos: user.name?.lastname || '',
+          direccion: user.address ? `${user.address.street} ${user.address.city}` : '',
+          telefono: user.phone || '',
+          correo: user.email || '',
+          username: user.username || '',
+          password: user.password || '***'
+        }));
+        setUsuarios(formateados);
       } catch (err) {
         setError(err.message);
-        setUsuarios([]);
       } finally {
         setLoading(false);
       }
     };
-
     fetchUsuarios();
   }, []);
 
-  const handleEditar = (usuario) => {
-    setEditingId(usuario.id);
-    setEditData({ ...usuario });
-  };
-
+  // Funciones de Lógica
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setEditData({
-      ...editData,
-      [name]: value
-    });
+    setEditData({ ...editData, [name]: value });
+  };
+
+  const handleNuevoChange = (e) => {
+    const { name, value } = e.target;
+    setNuevoUsuario({ ...nuevoUsuario, [name]: value });
+  };
+
+  const handleAgregar = (e) => {
+    e.preventDefault();
+    const idNuevo = usuarios.length > 0 ? Math.max(...usuarios.map(u => u.id)) + 1 : 1;
+    setUsuarios([{ ...nuevoUsuario, id: idNuevo }, ...usuarios]);
+    setNuevoUsuario({ nombre: '', apellidos: '', direccion: '', telefono: '', correo: '', username: '', password: '' });
+    alert("Usuario registrado con éxito");
   };
 
   const handleGuardar = () => {
     setUsuarios(usuarios.map(u => u.id === editingId ? editData : u));
     setEditingId(null);
-    setEditData({});
-  };
-
-  const handleCancelar = () => {
-    setEditingId(null);
-    setEditData({});
   };
 
   const handleEliminar = (id) => {
-    setUsuarios(usuarios.filter(usuario => usuario.id !== id));
-    alert(`Usuario ${id} eliminado`);
+    if(window.confirm("¿Eliminar usuario?")) setUsuarios(usuarios.filter(u => u.id !== id));
   };
 
-  if (loading) {
-    return (
-      <div className="usuarios-container">
-        <h2>Usuarios Registrados</h2>
-        <div className="loading">
-          <p>Cargando usuarios...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="usuarios-container">
-        <h2>Usuarios Registrados</h2>
-        <div className="error">
-          <p>Error: {error}</p>
-        </div>
-      </div>
-    );
-  }
+  if (loading) return <div className="usuarios-container"><div className="loading"><p>Cargando...</p></div></div>;
 
   return (
     <div className="usuarios-container">
-      <h2>Usuarios Registrados</h2>
+      <h2>Gestión de Usuarios</h2>
+
+      {/* --- FORMULARIO PARA NUEVO USUARIO --- */}
+      <div className="form-registro">
+        <h3>Registrar Nuevo Usuario</h3>
+        <form onSubmit={handleAgregar} className="nuevo-usuario-grid">
+          <input type="text" name="nombre" placeholder="Nombre" value={nuevoUsuario.nombre} onChange={handleNuevoChange} required />
+          <input type="text" name="apellidos" placeholder="Apellidos" value={nuevoUsuario.apellidos} onChange={handleNuevoChange} />
+          <input type="text" name="direccion" placeholder="Dirección" value={nuevoUsuario.direccion} onChange={handleNuevoChange} />
+          <input type="text" name="telefono" placeholder="Teléfono" value={nuevoUsuario.telefono} onChange={handleNuevoChange} />
+          <input type="email" name="correo" placeholder="Correo" value={nuevoUsuario.correo} onChange={handleNuevoChange} required />
+          <input type="text" name="username" placeholder="Username" value={nuevoUsuario.username} onChange={handleNuevoChange} />
+          <input type="password" name="password" placeholder="Password" value={nuevoUsuario.password} onChange={handleNuevoChange} required />
+          <button type="submit" className="btn-guardar">REGISTRAR USUARIO</button>
+        </form>
+      </div>
+
+      {/* --- TABLA DE USUARIOS --- */}
       <div className="tabla-wrapper">
         <table className="usuarios-tabla">
           <thead>
             <tr>
-              <th>Nombre</th>
-              <th>Apellidos</th>
-              <th>Dirección</th>
-              <th>Teléfono</th>
-              <th>Correo</th>
-              <th>Username</th>
-              <th>Password</th>
-              <th>Editar</th>
-              <th>Eliminar</th>
+              <th>Nombre</th><th>Apellidos</th><th>Dirección</th><th>Teléfono</th>
+              <th>Correo</th><th>Username</th><th>Password</th><th>Editar</th><th>Eliminar</th>
             </tr>
           </thead>
           <tbody>
             {usuarios.map((usuario) => (
               <React.Fragment key={usuario.id}>
                 {editingId === usuario.id ? (
-                  // Fila de edición
                   <tr className="edit-row">
-                    <td>
-                      <input
-                        type="text"
-                        name="nombre"
-                        value={editData.nombre}
-                        onChange={handleInputChange}
-                        className="edit-input"
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        name="apellidos"
-                        value={editData.apellidos}
-                        onChange={handleInputChange}
-                        className="edit-input"
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        name="direccion"
-                        value={editData.direccion}
-                        onChange={handleInputChange}
-                        className="edit-input"
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        name="telefono"
-                        value={editData.telefono}
-                        onChange={handleInputChange}
-                        className="edit-input"
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="email"
-                        name="correo"
-                        value={editData.correo}
-                        onChange={handleInputChange}
-                        className="edit-input"
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        name="username"
-                        value={editData.username}
-                        onChange={handleInputChange}
-                        className="edit-input"
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        name="password"
-                        value={editData.password}
-                        onChange={handleInputChange}
-                        className="edit-input"
-                      />
-                    </td>
-                    <td>
-                      <button 
-                        className="btn-guardar"
-                        onClick={handleGuardar}
-                      >
-                        Guardar
-                      </button>
-                    </td>
-                    <td>
-                      <button 
-                        className="btn-cancelar"
-                        onClick={handleCancelar}
-                      >
-                        Cancelar
-                      </button>
-                    </td>
+                    <td><input type="text" name="nombre" value={editData.nombre} onChange={handleInputChange} className="edit-input" /></td>
+                    <td><input type="text" name="apellidos" value={editData.apellidos} onChange={handleInputChange} className="edit-input" /></td>
+                    <td><input type="text" name="direccion" value={editData.direccion} onChange={handleInputChange} className="edit-input" /></td>
+                    <td><input type="text" name="telefono" value={editData.telefono} onChange={handleInputChange} className="edit-input" /></td>
+                    <td><input type="email" name="correo" value={editData.correo} onChange={handleInputChange} className="edit-input" /></td>
+                    <td><input type="text" name="username" value={editData.username} onChange={handleInputChange} className="edit-input" /></td>
+                    <td><input type="text" name="password" value={editData.password} onChange={handleInputChange} className="edit-input" /></td>
+                    <td><button className="btn-guardar" onClick={handleGuardar}>Guardar</button></td>
+                    <td><button className="btn-cancelar" onClick={() => setEditingId(null)}>X</button></td>
                   </tr>
                 ) : (
-                  // Fila normal
                   <tr>
-                    <td>{usuario.nombre}</td>
-                    <td>{usuario.apellidos}</td>
-                    <td>{usuario.direccion}</td>
-                    <td>{usuario.telefono}</td>
-                    <td>{usuario.correo}</td>
-                    <td>{usuario.username}</td>
-                    <td>{usuario.password}</td>
-                    <td>
-                      <button 
-                        className="btn-editar"
-                        onClick={() => handleEditar(usuario)}
-                      >
-                        Editar
-                      </button>
-                    </td>
-                    <td>
-                      <button 
-                        className="btn-eliminar"
-                        onClick={() => handleEliminar(usuario.id)}
-                      >
-                        Eliminar
-                      </button>
-                    </td>
+                    <td>{usuario.nombre}</td><td>{usuario.apellidos}</td><td>{usuario.direccion}</td><td>{usuario.telefono}</td>
+                    <td>{usuario.correo}</td><td>{usuario.username}</td><td>{usuario.password}</td>
+                    <td><button className="btn-editar" onClick={() => {setEditingId(usuario.id); setEditData(usuario);}}>Editar</button></td>
+                    <td><button className="btn-eliminar" onClick={() => handleEliminar(usuario.id)}>Eliminar</button></td>
                   </tr>
                 )}
               </React.Fragment>

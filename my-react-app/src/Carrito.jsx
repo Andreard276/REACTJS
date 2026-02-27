@@ -68,15 +68,17 @@ function Carrito() {
               <p className="productos-title">Productos</p>
               <ul>
                 {carrito.products.map((producto, index) => (
-                  <li key={index}>
-                    Producto #{producto.productId} - Cantidad {producto.quantity}
-                  </li>
-                ))}
+                 <li key={index} className="producto-item">
+                  <span>Producto #{producto.productId} - Cantidad {producto.quantity}</span>
+                  <button className="btn-remove-item" title="Quitar producto">&times;</button>
+             </li>
+              ))}
               </ul>
             </div>
 
             <div className="carrito-action">
               <button className="btn-comprar">Comprar</button>
+              <button className="btn-delete">ELIMINAR</button>
             </div>
           </div>
         ))}

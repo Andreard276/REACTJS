@@ -177,3 +177,28 @@
     padding: 8px 20px;
   }
 }
+
+.producto-item {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+  padding: 5px 0;
+  border-bottom: 1px solid #f0f0f0; 
+}
+
+
+.btn-remove-item {
+  background: none;
+  border: none;
+  color: #ff4d4d; 
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0 5px;
+  transition: transform 0.2s, color 0.2s;
+}
+
+.btn-remove-item:hover {
+  color: #d32f2f;
+  transform: scale(1.2); 
+}
