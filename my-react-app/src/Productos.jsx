@@ -40,7 +40,11 @@ function Productos() {
             <h3 className="product-title">{producto.title}</h3>
             <p className="product-price">${producto.price}</p>
             <p className="product-desc">{producto.description?.slice(0, 80)}{producto.description && producto.description.length > 80 ? '...' : ''}</p>
-            <button className="product-cta">Ver producto</button>
+            {/* Sustituye el botón anterior por este div */}
+<div className="product-actions-group">
+  <button className="btn-add-cart">AGREGAR AL CARRITO</button>
+  <button className="btn-delete">ELIMINAR</button>
+</div>
           </div>
         ))}
       </div>
