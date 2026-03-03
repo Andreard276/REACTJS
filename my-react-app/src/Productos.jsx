@@ -44,6 +44,7 @@ function Productos() {
 <div className="product-actions-group">
   <button className="btn-add-cart">AGREGAR AL CARRITO</button>
   <button className="btn-delete">ELIMINAR</button>
+  <button className="btn-edit">EDITAR</button>
 </div>
           </div>
         ))}
