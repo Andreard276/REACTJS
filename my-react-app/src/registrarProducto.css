@@ -1,61 +1,65 @@
-/* Contenedor del formulario */
-form {
-    display: grid;
-    /* Creamos 5 columnas: 4 para inputs y 1 para el botón */
-    grid-template-columns: repeat(4, 1fr) auto;
-    gap: 15px;
-    align-items: end; /* Alinea etiquetas arriba e inputs abajo */
-    background-color: #111;
-    padding: 20px;
+.registrar-box {
+    background: #fff;
+    padding: 30px;
     border-radius: 8px;
-    border: 1px solid #333;
-    margin-bottom: 30px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    max-width: 500px;
+    margin: 20px auto;
 }
 
-/* Estilo para los Labels (Títulos de las celdas) */
-form label {
-    grid-row: 1; /* Todos los labels van en la fila superior */
-    color: #aaa;
-    font-size: 0.8rem;
+.registrar-box h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.registrar-box form {
+    display: flex;
+    flex-direction: column;
+}
+
+.registrar-box label {
     font-weight: bold;
-    margin-bottom: 5px;
-    display: block;
+    margin: 10px 0 5px;
+    font-size: 14px;
 }
 
-/* Estilo para los Inputs y Textarea (Cuerpo de la tabla) */
-form input, 
-form textarea {
-    grid-row: 2; /* Todos los inputs van en la fila inferior */
-    background-color: #222;
-    border: 1px solid #444;
-    border-radius: 4px;
+.registrar-box input, 
+.registrar-box textarea {
     padding: 10px;
-    color: white;
-    width: 100%;
-    box-sizing: border-box;
-    height: 40px; /* Altura uniforme */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
 }
 
-/* Estilo para el botón Registrar */
-form button {
-    grid-row: 2; /* Alineado con los campos de texto */
-    background-color: #007bff;
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn-save {
+    flex: 2;
+    padding: 12px;
+    background-color: #28a745;
     color: white;
     border: none;
-    padding: 0 25px;
     border-radius: 4px;
-    font-weight: bold;
     cursor: pointer;
-    height: 40px;
-    transition: background 0.3s;
+    font-weight: bold;
 }
 
-form button:hover {
-    background-color: #0056b3;
+.btn-cancel {
+    flex: 1;
+    padding: 12px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
-/* Evita que el textarea se deforme */
-form textarea {
-    resize: none;
-    font-family: inherit;
+.btn-save:disabled {
+    background-color: #94d3a2;
+    cursor: not-allowed;
 }

@@ -11,6 +11,89 @@ import Galerias from "./Galerias";
 import Usuarios from "./Usuarios";
 import Carrito from "./Carrito";
 import './App.css';
+import './Login.css'; // Asegúrate de tener el archivo Login.css que te pasé antes
+
+function LoginComponent() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+
+    try {
+      const response = await fetch('https://fakestoreapi.com/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: username, // La API usa 'username' en lugar de email
+          password: password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log('Login exitoso, Token:', data.token);
+        alert('¡Bienvenido! Login exitoso.');
+        // Aquí podrías guardar el token en localStorage o redireccionar
+        localStorage.setItem('userToken', data.token);
+      } else {
+        setError('Usuario o contraseña incorrectos');
+      }
+    } catch (err) {
+      setError('Hubo un error al conectar con el servidor');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="login-wrapper">
+      <div className="login-card">
+        <h2>Iniciar Sesión</h2>
+        <form onSubmit={handleSubmit}>
+          {error && <p style={{ color: 'red', fontSize: '14px' }}>{error}</p>}
+          
+          <div className="form-group">
+            <label>Nombre de Usuario</label>
+            <input 
+              type="text" 
+              placeholder="ej: mor_2314" 
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required 
+            />
+          </div>
+          
+          <div className="form-group">
+            <label>Contraseña</label>
+            <input 
+              type="password" 
+              placeholder="83r5^_" 
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required 
+            />
+          </div>
+
+          <button type="submit" className="btn-login" disabled={loading}>
+            {loading ? 'Cargando...' : 'Entrar'}
+          </button>
+        </form>
+        
+        <div className="login-footer">
+          <a href="#">¿Olvidaste tu contraseña?</a>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function App(){
   const [currentPage, setCurrentPage] = useState('inicio');
@@ -23,118 +106,69 @@ function App(){
     { label: 'Carrito', href: 'carrito' },
     { label: 'Contacto', href: 'contacto' },
     { label: 'Sucursales', href: 'sucursales' },
-    { label: 'Galerias', href: 'galerias' }
+    { label: 'Galerias', href: 'galerias' },
+    { label: 'Login', href: 'login'}
   ];
-
-  const renderPage = () => {
-    switch(currentPage) {
-      case 'inicio':
-        return <Promociones />;
-      case 'acerca':
-        // keep promotions (or other content) below the top container
-        return <Promociones />;
-      case 'usuarios':
-        return null;
-      case 'carrito':
-        return null;
-      case 'productos':
-        return <div className="page-content"><h2>Productos</h2></div>;
-      case 'contacto':
-        return <div className="page-content"><h2>Contacto</h2></div>;
-      case 'sucursales':
-        return <div className="page-content"><h2>Sucursales</h2></div>;
-      case 'galerias':
-        return <div className="page-content"><h2>Galerías</h2></div>;
-      default:
-        return null;
-    }
-  };
 
   const topRef = useRef(null);
 
+  // Efecto para hacer scroll al inicio cada vez que cambias de pestaña
   useEffect(() => {
-    // Scroll the top container into view when the page changes
     if (topRef.current) {
       topRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }, [currentPage]);
 
+  // Esta función decide qué componente principal mostrar
+  const renderMainContent = () => {
+    switch(currentPage) {
+      case 'inicio': 
+        return <ContenedorTarjeta />;
+      case 'acerca': 
+        return <AcercaDe />;
+      case 'usuarios': 
+        return <Usuarios />;
+      case 'carrito': 
+        return <Carrito />;
+      case 'productos': 
+        return <Productos />;
+      case 'contacto': 
+        return <Contacto />;
+      case 'sucursales': 
+        return <Sucursales />;
+      case 'galerias': 
+        return <Galerias />;
+      case 'login': 
+        return <LoginComponent />;
+      default: 
+        return <ContenedorTarjeta />;
+    }
+  };
+
   return ( 
     <div className="app-container"> 
       <div className="app-content">
-        <Encabezado menuItems={menuItems} onMenuClick={setCurrentPage} currentPage={currentPage} />
+        {/* ENCABEZADO */}
+        <Encabezado 
+          menuItems={menuItems} 
+          onMenuClick={setCurrentPage} 
+          currentPage={currentPage} 
+        />
+        
+        {/* CONTENIDO PRINCIPAL (Aquí aparecerá el Login) */}
         <div ref={topRef} className="main-top">
-          {currentPage === 'acerca' && <AcercaDe />}
-          {currentPage === 'usuarios' && <Usuarios />}
-          {currentPage === 'carrito' && <Carrito />}
-          {currentPage === 'productos' && <Productos />}
-          {currentPage === 'contacto' && <Contacto />}
-          {currentPage === 'sucursales' && <Sucursales />}
-          {currentPage === 'galerias' && <Galerias />}
-          {currentPage === 'inicio' && <ContenedorTarjeta />}
-          {/* fallback */}
-          {!['acerca','usuarios','carrito','productos','contacto','sucursales','galerias','inicio'].includes(currentPage) && <ContenedorTarjeta />}
+          {renderMainContent()}
         </div>
-        {renderPage()}
+
+        {/* CONTENIDO SECUNDARIO (Solo se muestra en ciertas páginas) */}
+        {(currentPage === 'inicio' || currentPage === 'acerca') && (
+          <Promociones />
+        )}
       </div>
+
+      {/* PIE DE PÁGINA */}
       <Pie />
     </div>
-   
-  ) 
-}
-
-function UserComponent(){
-  
-  const nombre = 'Andrea';
-  const apellidos = 'Rodriguez Morales';
-  const nombrecompleto = <h2>El nombre es: {nombre} y sus apellidos {apellidos}</h2>;
-  return <h1>User Component {nombrecompleto}</h1>;
-}
-
-function ProfileComponent(){
-  const users = [
-    {id: 1, name: 'Andrea', role: 'Web Developer'},
-    {id: 2, name: 'Diego', role: 'Web Designer'},
-    {id: 3, name: 'Paola', role: 'Team Leader'},]
-  return (
-    <>
-    <p>Lista de usuarios del sistema</p>
-    <ul>
-      {
-      users.map (function(user,index) {
-        return (
-          <li key={index}>{user.name} es un {user.role}</li>
-        )
-      })
-    }
-    </ul>
-    </>
-
-  );
-}
-
-function FeedComponent(){
-  const users=[
-    {id:1, name:'pala', role:'Materiales de construcción'},
-    {id:2, name:'martillo', role:'Herramientas de construcción'},
-    {id:3, name:'cemento', role:'Materiales de construcción'},
-    {id:4, name:'ladrillo', role:'Materiales de construcción'},
-    {id:5, name:'nivel', role:'Herramientas de construcción'},
-  ]
-   return (
-    <>
-    <p>Lista de materiales del sistema</p>
-    <ul>
-      {
-      users.map (function(user,index) {
-        return (
-          <li key={index}>{user.name} es un {user.role}</li>
-        )
-      })
-    }
-    </ul>
-    </>
-
   );
 }
 
