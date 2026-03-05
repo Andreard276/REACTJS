@@ -2,86 +2,41 @@ import React, { useState, useEffect } from 'react';
 import './carrito.css';
 
 function Carrito() {
-  const [carritos, setCarritos] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [items, setItems] = useState([]);
+
+  
+  const cargarCarrito = () => {
+    const guardados = JSON.parse(localStorage.getItem('carrito_items')) || [];
+    setItems(guardados);
+  };
 
   useEffect(() => {
-    const fetchCarritos = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch('https://fakestoreapi.com/carts');
-        if (!response.ok) {
-          throw new Error('Error al cargar los carritos');
-        }
-        const data = await response.json();
-        setCarritos(data);
-        setError(null);
-      } catch (err) {
-        setError(err.message);
-        setCarritos([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCarritos();
+    cargarCarrito();
+    
+    window.addEventListener('storage', cargarCarrito);
+    return () => window.removeEventListener('storage', cargarCarrito);
   }, []);
 
-  if (loading) {
-    return (
-      <div className="carrito-container">
-        <h2>Carrito de compras</h2>
-        <div className="loading">
-          <p>Cargando carritos...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="carrito-container">
-        <h2>Carrito de compras</h2>
-        <div className="error">
-          <p>Error: {error}</p>
-        </div>
-      </div>
-    );
-  }
+  const eliminarDelCarrito = (tempId) => {
+    const nuevo = items.filter(i => i.tempId !== tempId);
+    setItems(nuevo);
+    localStorage.setItem('carrito_items', JSON.stringify(nuevo));
+  };
 
   return (
     <div className="carrito-container">
-      <h2>Carrito de compras</h2>
+      <h2>Carrito de compras ({items.length})</h2>
       <div className="carritos-list">
-        {carritos.map((carrito) => (
-          <div key={carrito.id} className="carrito-card">
-            <div className="carrito-id">
-              <h3>{carrito.id}</h3>
+        {items.length === 0 ? <p>El carrito está vacío</p> : 
+          items.map((item) => (
+            <div key={item.tempId} className="carrito-card">
+               <img src={item.image} alt="" style={{width: '50px'}} />
+               <h3>{item.title}</h3>
+               <p>${item.price}</p>
+               <button className="btn-delete" onClick={() => eliminarDelCarrito(item.tempId)}>QUITAR</button>
             </div>
-            
-            <div className="carrito-fecha">
-              <span>{carrito.date}</span>
-            </div>
-
-            <div className="carrito-productos">
-              <p className="productos-title">Productos</p>
-              <ul>
-                {carrito.products.map((producto, index) => (
-                 <li key={index} className="producto-item">
-                  <span>Producto #{producto.productId} - Cantidad {producto.quantity}</span>
-                  <button className="btn-remove-item" title="Quitar producto">&times;</button>
-             </li>
-              ))}
-              </ul>
-            </div>
-
-            <div className="carrito-action">
-              <button className="btn-comprar">Comprar</button>
-              <button className="btn-delete">ELIMINAR</button>
-            </div>
-          </div>
-        ))}
+          ))
+        }
       </div>
     </div>
   );

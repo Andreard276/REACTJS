@@ -8,7 +8,7 @@ function Usuarios() {
   const [editingId, setEditingId] = useState(null);
   const [editData, setEditData] = useState({});
   
-  // NUEVO: Estado para el formulario de registro
+  
   const [nuevoUsuario, setNuevoUsuario] = useState({
     nombre: '', apellidos: '', direccion: '', telefono: '', correo: '', username: '', password: ''
   });
@@ -40,7 +40,7 @@ function Usuarios() {
     fetchUsuarios();
   }, []);
 
-  // Funciones de Lógica
+  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setEditData({ ...editData, [name]: value });
