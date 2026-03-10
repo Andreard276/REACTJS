@@ -12,9 +12,11 @@ import Usuarios from "./Usuarios";
 import Carrito from "./Carrito";
 import './App.css';
 import './Login.css'; 
+import { useAuth } from './AuthContext';
 
 
 function LoginComponent() {
+  const { login } = useAuth(); //se hereda del authcontext 
   return (
     <div className="login-wrapper">
       <div className="login-card">
