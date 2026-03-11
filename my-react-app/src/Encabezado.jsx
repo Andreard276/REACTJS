@@ -1,4 +1,5 @@
 import React from 'react';
+// IMPORTANTE: Verifica que estas rutas de imágenes sean correctas en tu proyecto
 import miLogo from './assets/logouno.jpg' ;
 import facebook from './assets/facebook.png' ;
 import instagram from './assets/instagram.png' ;
@@ -7,10 +8,12 @@ import whatsapp from './assets/whatsapp.png' ;
 import tiktok from './assets/tik-tok.png' ;
 import './encabezado.css';
 
-function Encabezado({ menuItems = defaultMenuItems, onMenuClick, currentPage }) {
+// 1. Componente Principal: Recibe los items dinámicos desde App.jsx
+function Encabezado({ menuItems, onMenuClick, currentPage }) {
   return (
     <div className="encabezado">
         <Logo />
+        {/* Pasamos los items al componente Menu */}
         <Menu items={menuItems} onMenuClick={onMenuClick} currentPage={currentPage} />
         <div className="right-section">
             <Redes />
@@ -20,31 +23,24 @@ function Encabezado({ menuItems = defaultMenuItems, onMenuClick, currentPage }) 
   );
 }
 
-const defaultMenuItems = [
-  { label: 'Inicio', href: 'inicio' },
-  { label: 'Acerca de', href: 'acerca' },
-  { label: 'Usuarios', href: 'usuarios' },
-  { label: 'Productos', href: 'productos' },
-  { label: 'Carrito', href: 'carrito' },
-  { label: 'Contacto', href: 'contacto' },
-  { label: 'Sucursales', href: 'sucursales' },
-  { label: 'Galerias', href: 'galerias' }
-  
-  
-];
+// 2. Componente Logo
 function Logo(){
     return (
         <div className="logoDiv">
-            <img src={miLogo} alt="React logo" />
+            <img src={miLogo} alt="Logo" />
         </div>
     );
 }
 
+// 3. Componente Menú: Mapea los items (Públicos o Privados)
 function Menu({ items, onMenuClick, currentPage }){
+    // Si por algún error items no llega, evitamos que la app truene con un array vacío
+    const listaAMostrar = items || [];
+
     return (
         <div className="menuDiv">
             <ul>
-                {items.map((item, index) => (
+                {listaAMostrar.map((item, index) => (
                     <li key={index}>
                         <button 
                             onClick={() => onMenuClick(item.href)}
@@ -55,7 +51,8 @@ function Menu({ items, onMenuClick, currentPage }){
                                 cursor: 'pointer',
                                 fontSize: 'inherit',
                                 color: currentPage === item.href ? '#007bff' : 'inherit',
-                                fontWeight: currentPage === item.href ? 'bold' : 'normal'
+                                fontWeight: currentPage === item.href ? 'bold' : 'normal',
+                                padding: '5px 10px'
                             }}
                         >
                             {item.label}
@@ -65,9 +62,9 @@ function Menu({ items, onMenuClick, currentPage }){
             </ul>
         </div>
     );
-
 }
 
+// 4. Componente Redes Sociales
 function Redes(){
     return (
         <div className= "redesDiv">
@@ -76,64 +73,37 @@ function Redes(){
                 <li><img src={instagram} alt="Instagram" /></li>
                 <li><img src={linkedin} alt="Linkedin" /></li>
                 <li><img src={whatsapp} alt="Whatsapp" /></li>
-                <li><img src={tiktok} alt="Tiktok" />  
-                </li>
+                <li><img src={tiktok} alt="Tiktok" /></li>
             </ul>
         </div>
     );
 }
 
+// 5. Componente Clima
 function Clima(){
     const [clima, setClima] = React.useState('Cargando...');
 
     React.useEffect(() => {
-        fetch('https://api.open-meteo.com/v1/forecast?latitude=20.1411&longitude=-97.2867&current=temperature_2m,weather_code,precipitation&temperature_unit=celsius')
+        fetch('https://api.open-meteo.com/v1/forecast?latitude=20.1411&longitude=-97.2867&current=temperature_2m,weather_code&temperature_unit=celsius')
             .then(response => response.json())
             .then(data => {
                 const temp = data.current.temperature_2m;
                 const weatherCode = data.current.weather_code;
                 const description = getWeatherDescription(weatherCode);
-                setClima(`Xicocotepec: ${temp}°C - ${description}`);
+                setClima(`Xicotepec: ${temp}°C - ${description}`);
             })
-            .catch(error => {
-                console.log('Error al obtener clima:', error);
-                setClima('Clima no disponible');
-            });
+            .catch(() => setClima('Clima no disponible'));
     }, []);
 
     const getWeatherDescription = (code) => {
         const descriptions = {
-            0: 'Despejado',
-            1: 'Principalmente despejado',
-            2: 'Parcialmente nublado',
-            3: 'Nublado',
-            45: 'Niebla',
-            48: 'Niebla escarchada',
-            51: 'Llovizna ligera',
-            53: 'Llovizna moderada',
-            55: 'Llovizna densa',
-            61: 'Lluvia ligera',
-            63: 'Lluvia moderada',
-            65: 'Lluvia fuerte',
-            71: 'Nieve ligera',
-            73: 'Nieve moderada',
-            75: 'Nieve fuerte',
-            80: 'Chubascos ligeros',
-            81: 'Chubascos moderados',
-            82: 'Chubascos fuertes',
-            85: 'Chubascos de nieve ligeros',
-            86: 'Chubascos de nieve fuertes',
-            95: 'Tormenta',
-            96: 'Tormenta con granizo ligero',
-            99: 'Tormenta con granizo fuerte'
+            0: 'Despejado', 1: 'Despejado', 2: 'Parcialmente nublado', 3: 'Nublado',
+            45: 'Niebla', 61: 'Lluvia ligera', 63: 'Lluvia', 95: 'Tormenta'
         };
         return descriptions[code] || 'Desconocido';
     };
 
-    return (
-        <div className="clima-text">
-            {clima}
-        </div>
-    );
+    return <div className="clima-text">{clima}</div>;
 }
+
 export default Encabezado;
