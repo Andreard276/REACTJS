@@ -14,9 +14,10 @@ import './App.css';
 import './Login.css'; 
 import { useAuth } from './AuthContext';
 
+// 1. Modificamos LoginComponent para que reciba 'onNavigate' como prop
+function LoginComponent({ onNavigate }) {
+  const { login } = useAuth(); 
 
-function LoginComponent() {
-  const { login } = useAuth(); //se hereda del authcontext 
   return (
     <div className="login-wrapper">
       <div className="login-card">
@@ -30,8 +31,19 @@ function LoginComponent() {
             <label>Contraseña</label>
             <input type="password" placeholder="********" required />
           </div>
+          
           <button type="submit" className="btn-login">
             Entrar
+          </button>
+
+          {/* 2. Cambiamos a type="button" para que no envíe el formulario 
+                 y le asignamos la función para navegar a 'usuarios' */}
+          <button 
+            type="button" 
+            className="btn-register" 
+            onClick={() => onNavigate('usuarios')}
+          >
+            Nuevo Usuario
           </button>
         </form>
         <div className="login-footer">
@@ -65,7 +77,6 @@ function App(){
     }
   }, [currentPage]);
 
- 
   const renderMainContent = () => {
     switch(currentPage) {
       case 'inicio': return <ContenedorTarjeta />;
@@ -76,7 +87,8 @@ function App(){
       case 'contacto': return <Contacto />;
       case 'sucursales': return <Sucursales />;
       case 'galerias': return <Galerias />;
-      case 'login': return <LoginComponent />; 
+      // 3. Pasamos la función setCurrentPage al componente de Login
+      case 'login': return <LoginComponent onNavigate={setCurrentPage} />; 
       default: return <ContenedorTarjeta />;
     }
   };
@@ -94,7 +106,6 @@ function App(){
           {renderMainContent()}
         </div>
 
-        {}
         {(currentPage === 'inicio' || currentPage === 'acerca') && <Promociones />}
       </div>
       <Pie />

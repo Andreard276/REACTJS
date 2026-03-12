@@ -1,5 +1,4 @@
 import React from 'react';
-// IMPORTANTE: Verifica que estas rutas de imágenes sean correctas en tu proyecto
 import miLogo from './assets/logouno.jpg' ;
 import facebook from './assets/facebook.png' ;
 import instagram from './assets/instagram.png' ;
@@ -8,12 +7,10 @@ import whatsapp from './assets/whatsapp.png' ;
 import tiktok from './assets/tik-tok.png' ;
 import './encabezado.css';
 
-// 1. Componente Principal: Recibe los items dinámicos desde App.jsx
 function Encabezado({ menuItems, onMenuClick, currentPage }) {
   return (
     <div className="encabezado">
         <Logo />
-        {/* Pasamos los items al componente Menu */}
         <Menu items={menuItems} onMenuClick={onMenuClick} currentPage={currentPage} />
         <div className="right-section">
             <Redes />
@@ -23,7 +20,6 @@ function Encabezado({ menuItems, onMenuClick, currentPage }) {
   );
 }
 
-// 2. Componente Logo
 function Logo(){
     return (
         <div className="logoDiv">
@@ -32,9 +28,7 @@ function Logo(){
     );
 }
 
-// 3. Componente Menú: Mapea los items (Públicos o Privados)
 function Menu({ items, onMenuClick, currentPage }){
-    // Si por algún error items no llega, evitamos que la app truene con un array vacío
     const listaAMostrar = items || [];
 
     return (
@@ -64,7 +58,6 @@ function Menu({ items, onMenuClick, currentPage }){
     );
 }
 
-// 4. Componente Redes Sociales
 function Redes(){
     return (
         <div className= "redesDiv">
@@ -79,7 +72,6 @@ function Redes(){
     );
 }
 
-// 5. Componente Clima
 function Clima(){
     const [clima, setClima] = React.useState('Cargando...');
 

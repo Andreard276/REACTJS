@@ -10,12 +10,13 @@ import Sucursales from "./Sucursales";
 import Galerias from "./Galerias";
 import Usuarios from "./Usuarios";
 import Carrito from "./Carrito";
+import Categorias from "./Categorias"; // <--- IMPORTANTE: Crea este archivo
 import './App.css';
 import './Login.css'; 
 import { AuthProvider, useAuth } from './AuthContext';
 
 // --- COMPONENTE DE LOGIN ---
-function LoginComponent({ onLoginSuccess }) {
+function LoginComponent({ onLoginSuccess, onNavigate }) {
   const { login } = useAuth();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -51,19 +52,43 @@ function LoginComponent({ onLoginSuccess }) {
       <div className="login-card">
         <h2>Iniciar Sesión</h2>
         <form onSubmit={handleSubmit}>
-          {error && <p style={{ color: 'red', fontSize: '14px' }}>{error}</p>}
+          {error && <p style={{ color: 'red', fontSize: '14px', marginBottom: '10px' }}>{error}</p>}
           <div className="form-group">
             <label>Usuario</label>
-            <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
+            <input 
+              type="text" 
+              value={username} 
+              onChange={(e) => setUsername(e.target.value)} 
+              placeholder="Tu usuario"
+              required 
+            />
           </div>
           <div className="form-group">
             <label>Contraseña</label>
-            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+            <input 
+              type="password" 
+              value={password} 
+              onChange={(e) => setPassword(e.target.value)} 
+              placeholder="********"
+              required 
+            />
           </div>
+          
           <button type="submit" className="btn-login" disabled={loading}>
             {loading ? 'Cargando...' : 'Entrar'}
           </button>
+
+          <button 
+            type="button" 
+            className="btn-register" 
+            onClick={() => onNavigate('usuarios')}
+          >
+            Nuevo Usuario
+          </button>
         </form>
+        <div className="login-footer">
+          <a href="#">¿Olvidaste tu contraseña?</a>
+        </div>
       </div>
     </div>
   );
@@ -71,11 +96,11 @@ function LoginComponent({ onLoginSuccess }) {
 
 // --- CONTENIDO DE LA APP (Consumidor del Contexto) ---
 function AppContent() {
-  const { isLoggedIn, logout } = useAuth(); // Usamos isLoggedIn que es el nombre en tu AuthContext
+  const { isLoggedIn, logout } = useAuth(); 
   const [currentPage, setCurrentPage] = useState('inicio');
   const topRef = useRef(null);
 
-  // Menú dinámico según el pizarrón
+  // Menú para usuarios NO logueados
   const menuPublico = [
     { label: 'Inicio', href: 'inicio' },
     { label: 'Acerca de', href: 'acerca' },
@@ -86,10 +111,12 @@ function AppContent() {
     { label: 'Ingresar', href: 'login'}
   ];
 
+  // Menú para usuarios logueados (Incluye Categoría)
   const menuPrivado = [
     { label: 'Inicio', href: 'inicio' },
     { label: 'Acerca de', href: 'acerca' },
     { label: 'Productos', href: 'productos' },
+    { label: 'Categoría', href: 'categoria' }, // <--- NUEVA OPCIÓN
     { label: 'Galerías', href: 'galerias' },
     { label: 'Usuarios', href: 'usuarios' },
     { label: 'Carrito', href: 'carrito' },
@@ -122,10 +149,11 @@ function AppContent() {
       case 'usuarios': return <Usuarios />;
       case 'carrito': return <Carrito />;
       case 'productos': return <Productos />;
+      case 'categoria': return <Categorias />; // <--- NUEVA PÁGINA
       case 'contacto': return <Contacto />;
       case 'sucursales': return <Sucursales />;
       case 'galerias': return <Galerias />;
-      case 'login': return <LoginComponent onLoginSuccess={setCurrentPage} />;
+      case 'login': return <LoginComponent onLoginSuccess={setCurrentPage} onNavigate={setCurrentPage} />;
       default: return <ContenedorTarjeta />;
     }
   };
